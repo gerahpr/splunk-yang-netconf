@@ -1,0 +1,76 @@
+<?xml version="1.0"?><dashboard version="1.1">
+  <label>Uso de CPU - NETCONF</label>
+  <row>
+    <panel>
+      <chart>
+        <title>Uso de CPU (últimos 5 minutos) por dispositivo</title>
+        <search>
+          <query>index=yang sourcetype=netconf:cpu
+| timechart avg(yang_data.five-minutes) AS "Promedio CPU 5m" by device_name</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="charting.chart">line</option>
+        <option name="charting.drilldown">none</option>
+      </chart>
+    </panel>
+    <panel>
+      <title>Promedio CPU 5s por dispositivo</title>
+      <chart>
+        <search>
+          <query>index=yang sourcetype=netconf:cpu | timechart avg("yang_data.five-seconds") by device_name</query>
+          <earliest>$earliest$</earliest>
+          <latest>$latest$</latest>
+        </search>
+        <option name="charting.chart">line</option>
+        <option name="refresh.display">progressbar</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Top procesos por tiempo de ejecución promedio</title>
+      <chart>
+        <search>
+          <query>index=yang sourcetype=netconf:cpu | stats avg("yang_data.avg-run-time") as avg_runtime by "yang_data.name", device_name | sort - avg_runtime | head 10</query>
+          <earliest>$earliest$</earliest>
+          <latest>$latest$</latest>
+        </search>
+        <option name="charting.chart">bar</option>
+        <option name="refresh.display">progressbar</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <table>
+        <title>Tabla con procesos y CPU por dispositivo</title>
+        <search>
+          <query>index=yang sourcetype=netconf:cpu
+| stats avg(yang_data.one-minute) AS cpu_1m by yang_data.name yang_data.pid
+| eval "CPU 1m (%)" = round(cpu_1m * 100, 2)
+| sort - "CPU 1m (%)"
+| rename yang_data.name AS "Nombre del proceso" yang_data.pid AS "PID"
+| table "Nombre del proceso" "PID"  "CPU 1m (%)"
+| head 10</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
+    <panel>
+      <table>
+        <title>Uso actual de CPU (última muestra)</title>
+        <search>
+          <query>index=yang sourcetype=netconf:cpu
+| stats latest(yang_data.five-seconds) AS "CPU 5s", latest(yang_data.one-minute) AS "CPU 1m", latest(yang_data.five-minutes) AS "CPU 5m" by device_name</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="drilldown">none</option>
+      </table>
+    </panel>
+  </row>
+</dashboard>

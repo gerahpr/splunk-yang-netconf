@@ -1,0 +1,11 @@
+[views/cpu_dashboard]
+version = 9.4.2
+modtime = 1752512321.184971000
+
+[views/memory_dashboard]
+version = 9.4.2
+modtime = 1752516241.330294000
+
+[views/interfaces_dashboard]
+version = 9.4.2
+modtime = 1752517964.378703000

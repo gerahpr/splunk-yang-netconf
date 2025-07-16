@@ -1,0 +1,87 @@
+<?xml version="1.0"?><dashboard version="1.1">
+  <label>Estado de Interfaces - NETCONF</label>
+  <row>
+    <panel>
+      <title>Estado de interface (down) por dispositivo</title>
+      <chart>
+        <search>
+          <query>index=yang sourcetype=netconf:interfaces "yang_data.oper-status"=down
+| timechart span=5m count(yang_data.oper-status) by device_name</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="charting.chart">line</option>
+        <option name="charting.drilldown">none</option>
+      </chart>
+    </panel>
+    <panel>
+      <chart>
+        <title>Estado (down) por interface</title>
+        <search>
+          <query>index=yang sourcetype=netconf:interfaces "yang_data.oper-status"=down
+|stats count(yang_data.oper-status) as status by yang_data.name</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="charting.chart">pie</option>
+        <option name="charting.drilldown">none</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Tráfico de entrada por interfaz</title>
+      <chart>
+        <search>
+          <query>index=yang sourcetype=netconf:interfaces | timechart sum("yang_data.statistics.in-octets") as in_octets by "yang_data.name"</query>
+          <earliest>$earliest$</earliest>
+          <latest>$latest$</latest>
+        </search>
+        <option name="charting.chart">line</option>
+        <option name="refresh.display">progressbar</option>
+      </chart>
+    </panel>
+    <panel>
+      <title>Tráfico de salida por interfaz</title>
+      <chart>
+        <search>
+          <query>index=yang sourcetype=netconf:interfaces | timechart sum("yang_data.statistics.out-octets") as out_octets by "yang_data.name"</query>
+          <earliest>$earliest$</earliest>
+          <latest>$latest$</latest>
+        </search>
+        <option name="charting.chart">area</option>
+        <option name="charting.drilldown">all</option>
+        <option name="refresh.display">progressbar</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Errores y descartes por interfaz</title>
+      <chart>
+        <search>
+          <query>index=yang sourcetype=netconf:interfaces | stats latest("yang_data.statistics.in-errors") as in_errors, latest("yang_data.statistics.out-errors") as out_errors, latest("yang_data.statistics.in-discards") as in_discards, latest("yang_data.statistics.out-discards") as out_discards by "yang_data.name", device_name</query>
+          <earliest>$earliest$</earliest>
+          <latest>$latest$</latest>
+        </search>
+        <option name="charting.chart">line</option>
+        <option name="refresh.display">progressbar</option>
+      </chart>
+    </panel>
+    <panel>
+      <title>Utilización de interface</title>
+      <chart>
+        <search>
+          <query>index=yang sourcetype=netconf:interfaces
+| eval total_traffic = 'yang_data.statistics.in-octets' + 'yang_data.statistics.out-octets'
+| stats latest(total_traffic) as traffic by yang_data.name
+| sort - traffic | head 10</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="charting.chart">bar</option>
+        <option name="charting.drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </chart>
+    </panel>
+  </row>

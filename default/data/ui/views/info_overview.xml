@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dashboard version="1.1">
+  <label>Redirigiendo a CPU</label>
+  <row>
+    <panel>
+      <html>
+        <![CDATA[
+          <div>
+            <p>Redirigiendo... si no ocurre automáticamente, <a href="/en-US/app/yang-netconf-app/cpu_dashboard">haz clic aquí</a>.</p>
+            <script type="text/javascript">
+              window.location.replace("/en-US/app/yang-netconf-app/cpu_dashboard");
+            </script>
+          </div>
+        ]]>
+      </html>
+    </panel>
+  </row>
+</dashboard>
+
