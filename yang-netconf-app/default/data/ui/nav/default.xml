@@ -1,7 +1,5 @@
 <nav>
-  <collection label="Monitoreo de red">
-    <view name="cpu_dashboard" label="Uso de CPU" default="true" />
-    <view name="memory_dashboard" label="Uso de Memoria" />
-    <view name="interfaces_dashboard" label="Interfaces de Red" />
-  </collection>
+  <view name="cpu_dashboard" default="true" />
+  <view name="memory_dashboard" />
+  <view name="interfaces_dashboard" />
 </nav>

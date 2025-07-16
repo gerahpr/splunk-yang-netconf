@@ -1,6 +1,6 @@
 # YANG NETCONF App for Splunk
 
-Esta aplicación contiene dashboards para visualizar métricas recolectadas vía NETCONF/YANG desde routers Cisco (CSR1000v o similares).
+Esta aplicación contiene dashboards para visualizar métricas recolectadas vía NETCONF/YANG desde routers Cisco.
 
 ## Contenido
 - Dashboards de CPU, memoria e interfaces
