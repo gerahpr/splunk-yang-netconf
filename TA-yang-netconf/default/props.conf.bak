@@ -1,0 +1,120 @@
+[netconf:cpu]
+INDEXED_EXTRACTIONS = json
+KV_MODE = none
+SHOULD_LINEMERGE = false
+AUTO_KV_JSON = true
+
+# Alias simples para facilitar consultas
+FIELDALIAS-cpu_aliases = \
+  yang_data.rpc-reply.data.cpu-usage.cpu-utilization.five-seconds AS cpu_5s, \
+  yang_data.rpc-reply.data.cpu-usage.cpu-utilization.one-minute AS cpu_1m, \
+  yang_data.rpc-reply.data.cpu-usage.cpu-utilization.five-minutes AS cpu_5m, \
+  yang_data.rpc-reply.data.cpu-usage.cpu-utilization.cpu-usage-processes.cpu-usage-process{}.pid AS pid, \
+  yang_data.rpc-reply.data.cpu-usage.cpu-utilization.cpu-usage-processes.cpu-usage-process{}.name AS process_name, \
+  yang_data.rpc-reply.data.cpu-usage.cpu-utilization.cpu-usage-processes.cpu-usage-process{}.tty AS tty, \
+  yang_data.rpc-reply.data.cpu-usage.cpu-utilization.cpu-usage-processes.cpu-usage-process{}.avg-run-time AS avg_runtime, \
+  yang_data.rpc-reply.data.cpu-usage.cpu-utilization.cpu-usage-processes.cpu-usage-process{}.five-seconds AS process_cpu_5s, \
+  yang_data.rpc-reply.data.cpu-usage.cpu-utilization.cpu-usage-processes.cpu-usage-process{}.one-minute AS process_cpu_1m, \
+  yang_data.rpc-reply.data.cpu-usage.cpu-utilization.cpu-usage-processes.cpu-usage-process{}.five-minutes AS process_cpu_5m, \
+  yang_data.rpc-reply.data.cpu-usage.cpu-utilization.cpu-usage-processes.cpu-usage-process{}.invocation-count AS invocation_count, \
+  yang_data.rpc-reply.data.cpu-usage.cpu-utilization.cpu-usage-processes.cpu-usage-process{}.total-run-time AS total_runtime
+
+[netconf:interfaces]
+INDEXED_EXTRACTIONS = json
+KV_MODE = none
+SHOULD_LINEMERGE = false
+AUTO_KV_JSON = true
+
+FIELDALIAS-interfaces-aliases = \
+  yang_data.rpc-reply.data.interfaces-state.interface{}.name AS interface_name, \
+  yang_data.rpc-reply.data.interfaces-state.interface{}.admin-status AS admin_status, \
+  yang_data.rpc-reply.data.interfaces-state.interface{}.oper-status AS oper_status, \
+  yang_data.rpc-reply.data.interfaces-state.interface{}.last-change AS last_change, \
+  yang_data.rpc-reply.data.interfaces-state.interface{}.phys-address AS mac_address, \
+  yang_data.rpc-reply.data.interfaces-state.interface{}.speed AS speed_bps, \
+  yang_data.rpc-reply.data.interfaces-state.interface{}.statistics.in-octets AS in_octets, \
+  yang_data.rpc-reply.data.interfaces-state.interface{}.statistics.out-octets AS out_octets, \
+  yang_data.rpc-reply.data.interfaces-state.interface{}.statistics.in-unicast-pkts AS in_unicast_pkts, \
+  yang_data.rpc-reply.data.interfaces-state.interface{}.statistics.out-unicast-pkts AS out_unicast_pkts, \
+  yang_data.rpc-reply.data.interfaces-state.interface{}.statistics.in-errors AS in_errors, \
+  yang_data.rpc-reply.data.interfaces-state.interface{}.statistics.out-errors AS out_errors, \
+  yang_data.rpc-reply.data.interfaces-state.interface{}.statistics.in-discards AS in_discards, \
+  yang_data.rpc-reply.data.interfaces-state.interface{}.statistics.out-discards AS out_discards
+
+[netconf:memory]
+INDEXED_EXTRACTIONS = json
+KV_MODE = json
+SHOULD_LINEMERGE = false
+AUTO_KV_JSON = true
+
+EXTRACT-memory_fields = "name":"(?<memory_name>[^"]+)",\s*"total-memory":"(?<total_memory>\d+)",\s*"used-memory":"(?<used_memory>\d+)",\s*"free-memory":"(?<free_memory>\d+)",\s*"lowest-usage":"(?<lowest_usage>\d+)",\s*"highest-usage":"(?<highest_usage>\d+)"
+
+
+[netconf:lldp]
+INDEXED_EXTRACTIONS = json
+KV_MODE = none
+SHOULD_LINEMERGE = false
+AUTO_KV_JSON = true
+
+FIELDALIAS-lldp_aliases = \
+  yang_data.rpc-reply.data.lldp-entries.lldp-intf-details{}.if-name AS lldp_if_name, \
+  yang_data.rpc-reply.data.lldp-entries.lldp-intf-details{}.isenabled AS lldp_enabled, \
+  yang_data.rpc-reply.data.lldp-entries.lldp-intf-details{}.rx AS lldp_rx, \
+  yang_data.rpc-reply.data.lldp-entries.lldp-intf-details{}.tx AS lldp_tx, \
+  yang_data.rpc-reply.data.lldp-entries.lldp-state-details.chassis-id AS lldp_chassis_id, \
+  yang_data.rpc-reply.data.lldp-entries.lldp-state-details.chassis-id-type AS lldp_chassis_type, \
+  yang_data.rpc-reply.data.lldp-entries.lldp-state-details.enabled AS lldp_state_enabled, \
+  yang_data.rpc-reply.data.lldp-entries.lldp-state-details.entries-aged-out AS lldp_aged_out, \
+  yang_data.rpc-reply.data.lldp-entries.lldp-state-details.frame-discard AS lldp_discarded, \
+  yang_data.rpc-reply.data.lldp-entries.lldp-state-details.frame-error-in AS lldp_error_in, \
+  yang_data.rpc-reply.data.lldp-entries.lldp-state-details.hello-timer AS lldp_hello_timer, \
+  yang_data.rpc-reply.data.lldp-entries.lldp-state-details.inqueue-overflow AS lldp_queue_overflow, \
+  yang_data.rpc-reply.data.lldp-entries.lldp-state-details.mem-failures AS lldp_mem_failures, \
+  yang_data.rpc-reply.data.lldp-entries.lldp-state-details.system-desc AS lldp_sys_desc, \
+  yang_data.rpc-reply.data.lldp-entries.lldp-state-details.system-name AS lldp_sys_name, \
+  yang_data.rpc-reply.data.lldp-entries.lldp-state-details.table-overflow AS lldp_table_overflow, \
+  yang_data.rpc-reply.data.lldp-entries.lldp-state-details.tlv-discard AS lldp_tlv_discard, \
+  yang_data.rpc-reply.data.lldp-entries.lldp-state-details.tlv-unknown AS lldp_tlv_unknown
+
+[netconf:bgp]
+INDEXED_EXTRACTIONS = json
+KV_MODE = none
+SHOULD_LINEMERGE = false
+AUTO_KV_JSON = true
+
+FIELDALIAS-bgp_aliases = \
+  yang_data.rpc-reply.data.bgp-state-data.bgp-route-rds.bgp-route-rd.rd-value AS rd_value, \
+  yang_data.rpc-reply.data.bgp-state-data.bgp-route-vrfs.bgp-route-vrf.bgp-route-afs.bgp-route-af{}.afi-safi AS afi_safi, \
+  yang_data.rpc-reply.data.bgp-state-data.bgp-route-vrfs.bgp-route-vrf.bgp-route-afs.bgp-route-af{}.bgp-route-filters.bgp-route-filter.route-filter AS route_filter, \
+  yang_data.rpc-reply.data.bgp-state-data.bgp-route-vrfs.bgp-route-vrf.vrf AS bgp_vrf
+
+[netconf:arp]
+INDEXED_EXTRACTIONS = json
+KV_MODE = none
+SHOULD_LINEMERGE = false
+AUTO_KV_JSON = true
+
+FIELDALIAS-arp_aliases = \
+  yang_data.rpc-reply.data.arp-data.arp-vrf.arp-oper{}.address AS arp_address, \
+  yang_data.rpc-reply.data.arp-data.arp-vrf.arp-oper{}.hwtype AS hw_type, \
+  yang_data.rpc-reply.data.arp-data.arp-vrf.arp-oper{}.interface AS interface, \
+  yang_data.rpc-reply.data.arp-data.arp-vrf.arp-oper{}.hardware AS mac_address, \
+  yang_data.rpc-reply.data.arp-data.arp-vrf.arp-oper{}.type AS arp_type, \
+  yang_data.rpc-reply.data.arp-data.arp-vrf.arp-oper{}.time AS arp_age, \
+  yang_data.rpc-reply.data.arp-data.arp-vrf.arp-oper{}.mode AS arp_mode, \
+  yang_data.rpc-reply.data.arp-data.arp-vrf.arp-oper{}.encaptype AS encap_type, \
+  yang_data.rpc-reply.data.arp-data.arp-vrf.vrf AS arp_vrf
+
+[netconf:environment]
+INDEXED_EXTRACTIONS = json
+KV_MODE = none
+SHOULD_LINEMERGE = false
+AUTO_KV_JSON = true
+
+FIELDALIAS-env-aliases = \
+  yang_data.rpc-reply.data.environment-sensors.sensor{}.name AS sensor_name, \
+  yang_data.rpc-reply.data.environment-sensors.sensor{}.value AS sensor_value, \
+  yang_data.rpc-reply.data.environment-sensors.sensor{}.unit AS sensor_unit, \
+  yang_data.rpc-reply.data.environment-sensors.sensor{}.location AS sensor_location, \
+  yang_data.rpc-reply.data.environment-sensors.sensor{}.severity AS sensor_severity, \
+  yang_data.rpc-reply.data.environment-sensors.sensor{}.state AS sensor_state
